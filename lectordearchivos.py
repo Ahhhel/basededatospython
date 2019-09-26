@@ -19,11 +19,18 @@ class Aplicacion():
        self.boton1 = ttk.Button(self.raiz, text="Salir", style='my.TButton', command = quit) #boton salir
 
        self.areatext.pack(side=TOP)
-       self.tinfo.pack(side=TOP)  
+       self.tinfo.pack(side=TOP)  ex
        self.boton2.pack(side=TOP, fill=BOTH)
        self.boton1.pack(side=BOTTOM, fill=BOTH)
        
        self.raiz.mainloop() #funcion del loop de la interfaz
+    def consulta_tabla(self):
+        wb = load_workbook('Algebra relacional.xlsx') #se hace la apertura del archivo
+        ws = wb.active #se activa el archivo
+        for row in hoja.rows:
+            for columna in row:
+                print (columna.value)
+        print("") 
     #aqui puede ir el back en otra funcion
     def lectura_archivo(self):
         texto = "\n"
