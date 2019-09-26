@@ -14,9 +14,15 @@ class Aplicacion():
        self.raiz.geometry("1280x600") #tamaño de la ventana
 
        self.areatext = ttk.Label(self.raiz, text= "Información", font=fon) #etiqueta de info
-       self.tinfo = Text(self.raiz, width=80, height=20, font=fon)#espacio donde irá la informacion obtenida del archivo
-       self.boton2 = ttk.Button(self.raiz, text = "Ejecutar consulta", style='my.TButton', command = self.lectura_archivo)
-       self.boton1 = ttk.Button(self.raiz, text="Salir", style='my.TButton', command = quit) #boton salir
+       self.tinfo = Text(self.raiz, wrap=NONE, width=90, height=20, font=fon)#espacio donde irá la informacion obtenida del archivo
+       scrollb = ttk.Scrollbar(self.raiz, command=self.tinfo.yview)
+       scrollb.pack(side=RIGHT, fill=BOTH)
+       self.tinfo['yscrollcommand'] = scrollb.set
+       scrollb2 = ttk.Scrollbar(self.raiz, orient = HORIZONTAL , command=self.tinfo.xview)
+       scrollb2.pack(side=TOP, fill=BOTH)
+       self.tinfo['xscrollcommand'] = scrollb2.set
+       self.boton2 = ttk.Button(self.raiz, text = "SELECT first_name,salary FROM employees WHERE salary BETWEEN 10000 AND 15000", style='my.TButton', command = self.lectura_archivo)
+       self.boton1 = ttk.Button(self.raiz, text="SELECT * FROM employees", style='my.TButton', command = self.consulta_tabla) #boton salir
 
        self.areatext.pack(side=TOP)
        self.tinfo.pack(side=TOP)  
@@ -24,14 +30,18 @@ class Aplicacion():
        self.boton1.pack(side=BOTTOM, fill=BOTH)
        
        self.raiz.mainloop() #funcion del loop de la interfaz
+
     def consulta_tabla(self):
+        self.tinfo.delete("1.0", END)
         wb = load_workbook('Algebra relacional.xlsx') #se hace la apertura del archivo
         ws = wb.active #se activa el archivo
+        texto = "\n"
         for row in ws.rows:
             for col in row:
-
-                print(col.value),
-        print("")
+                if str(col.value) != "None":
+                    texto+= str(col.value) + "\t \t \t"
+            texto+="\n"
+        self.tinfo.insert("1.0", texto)
     #aqui puede ir el back en otra funcion
     def lectura_archivo(self):
         texto = "\n"
