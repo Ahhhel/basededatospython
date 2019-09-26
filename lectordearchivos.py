@@ -18,20 +18,26 @@ class Aplicacion():
     def lectura_archivo(self):
         wb = load_workbook('Algebra relacional.xlsx') #se hace la apertura del archivo
         ws = wb.active #se activa el archivo
-        z = 1
+        z = 0
+        col1 = 0
+        col2 = 0
         for row in ws.iter_rows(): #este for solo cuenta cuantas filas son
             z += 1
         for col in ws.iter_cols(): #este for es inutil realmente, pero ps idenfica las columnas de NAME y salary
+            col1 += 1
+            col2 += 1
             for cell in col:
                 if cell.value == "FIRST_NAME":
                     cmpo = cell.value
+                    fincol1 = col1
                 if cell.value == "SALARY":
                     cmpo2 = cell.value
+                    fincol2 = col2
         print(cmpo, cmpo2)
-        for x in range (2,z-1): #este for es el que está chido ya que solo recorremos las filas a partir de la 2 
+        for x in range (2,z): #este for es el que está chido ya que solo recorremos las filas a partir de la 2 
                                 #ya que la fila 1 solo es de entidades
-            if (int(ws.cell(row=x,column=9).value) >= 10000 and int(ws.cell(row=x,column=9).value) <= 15000) :
-                print(ws.cell(row=x,column=3).value, "    " ,ws.cell(row=x,column=9).value)
+            if (int(ws.cell(row=x,column=fincol2).value) >= 10000 and int(ws.cell(row=x,column=fincol2).value) <= 15000) :
+                print(ws.cell(row=x,column=fincol1).value, "    " ,ws.cell(row=x,column=fincol2).value)
 
 mi_app = Aplicacion()
 mi_app.lectura_archivo()
